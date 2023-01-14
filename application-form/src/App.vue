@@ -1,20 +1,25 @@
 <template>
   <div id="app">
     <div class="container">
-      <SideBar />
-      <div class="item">
-        <router-view />
-      </div>
+      <router-view />
     </div>
+    <ToastList />
+    <LoadingSpinner v-if="getLoading" />
   </div>
 </template>
 
 <script>
-import SideBar from "./components/SideBar.vue";
+import LoadingSpinner from "@/components/share/loadingSpinner/LoadingSpinner.vue";
+import ToastList from "@/components/share/toastMessage/ToastList.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
-    SideBar,
+    ToastList,
+    LoadingSpinner,
+  },
+  computed: {
+    ...mapGetters("loading", ["getLoading"]),
   },
 };
 </script>
@@ -30,11 +35,5 @@ export default {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
-.container {
-  display: flex;
-}
-.item {
-  margin-left: 200px;
 }
 </style>

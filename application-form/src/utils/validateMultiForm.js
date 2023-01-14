@@ -34,21 +34,16 @@ export function validateSalary(item) {
 
 export function validateNextStep(stepData) {
     let isCheck = true
-    if (stepData.data.length === 0) {
-        isCheck = false
-    }
-    stepData.data.forEach(list => {
-        list.forEach(item => {
-            if (item.requireItem === true) {
-                if (item.value === "" || item.value.from === "" || item.value.to === "" || item.errorMsg) {
-                    isCheck = false
-                }
-            } else {
-                if (item.errorMsg) {
-                    isCheck = false
-                }
+    stepData.data.forEach(item => {
+        if (item.requireItem === true) {
+            if (item.value === "" || item.value.from === "" || item.value.to === "" || item.errorMsg) {
+                isCheck = false
             }
-        })
+        } else {
+            if (item.errorMsg) {
+                isCheck = false
+            }
+        }
     })
     return isCheck
 }
@@ -76,31 +71,21 @@ export function validateDate(item) {
     return isCheck;
 }
 
-export function resetErrorDate(stepData, id) {
-    for (let i = 0; i < stepData.data.length; i++) {
-        let item = stepData.data[i].find(item => item.id === id)
-        item.errorMsg = ""
+export function validateDuplicatePassword(stepData, item) {
+    let newArr = stepData.data.filter(item => item.passwordField === true)
+    let set = new Set
+    newArr.forEach(item => set.add(item.value))
+
+    if (set.size === newArr.length) {
+        item.errorMsg = "passwords do not match"
+        scrollError()
     }
 }
-export function validateDateConflict(stepData, id) {
-    if (stepData.data.length > 1) {
-        let isConflict = false;
-        for (let i = 0; i < stepData.data.length; i++) {
-            for (let j = 1; j < stepData.data.length; j++) {
-                let itemI = stepData.data[i].find(item => item.id === id)
-                let itemJ = stepData.data[j].find(item => item.id === id)
-                if (itemI.value.from && itemJ.value.from !== "" && i < j) {
-                    if (itemI.value.from <= itemJ.value.to && itemJ.value.from <= itemI.value.to) {
-                        itemI.errorMsg = "the date conflict was found"
-                        itemJ.errorMsg = "the date conflict was found"
-                        isConflict = true;
-                        scrollError();
-                    }
-                }
-            }
-        }
-        return isConflict
-    }
+
+export function resetError(stepData) {
+    stepData.data.forEach(item => {
+        item.errorMsg = ""
+    })
 }
 
 function scrollError() {

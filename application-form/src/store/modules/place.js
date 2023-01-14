@@ -1,4 +1,4 @@
-import { formatAddress } from "@/utils/index.js";
+import { formatAddress, formatAddressCode } from "@/utils/index.js";
 import Vue from 'vue'
 
 export default {
@@ -21,7 +21,7 @@ export default {
     },
     mutations: {
         GET_OPTIONS(state, data) {
-            data.map(item => state.options.push({ id: item.code, name: formatAddress(item.name) }));
+            data.map(item => state.options.push({ id: item.code, codename: formatAddressCode(item.codename), name: formatAddress(item.name) }));
         },
     }
 }

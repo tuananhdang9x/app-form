@@ -1,47 +1,34 @@
-import { formFirst, formSecond, formThird } from '@/components/exam3/components/formData.js'
+import { formData } from '@/components/share/multiForm/components/formData.js'
+import axios from 'axios'
 export default {
     namespaced: true,
     state: {
-        formData: [
-            {
-                id: 99,
-                step: 1,
-                title: 'Thông tin cá nhân',
-                data: formFirst,
-                useAddForm: false,
-                labelAddForm: ""
-            },
-            {
-                id: 98,
-                step: 2,
-                title: "Kinh nghiệm làm việc",
-                data: formSecond,
-                useAddForm: true,
-                labelAddForm: "Thêm công ty"
-            },
-            {
-                id: 97,
-                step: 3,
-                title: "Xác nhận thông tin",
-                data: formThird,
-                useAddForm: false,
-                labelAddForm: ""
-            },
-        ],
-        dataExport: {}
+        formData: JSON.parse(JSON.stringify(formData)),
+        users: [],
     },
     getters: {
         getMultiForm: state => state.formData,
-        getDataExport: state => state.dataExport
+        listUsers: state => state.users,
     },
     actions: {
-        exportData({ commit }, payload) {
-            commit('EXPORT_DATA', payload)
-        }
+        async getUser({ commit }) {
+            try {
+                const res = await axios.get("http://localhost:8081/users");
+                commit('GET_USER', res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        clearForm({ commit }) {
+            commit('CLEAR_FORM')
+        },
     },
     mutations: {
-        EXPORT_DATA(state, payload) {
-            state.dataExport = payload
-        }
+        GET_USER(state, data) {
+            state.users = data
+        },
+        CLEAR_FORM(state) {
+            state.formData = JSON.parse(JSON.stringify(formData))
+        },
     }
 }

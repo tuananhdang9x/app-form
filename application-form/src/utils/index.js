@@ -10,7 +10,8 @@ export function updateDateTime(today) {
     if (hour < 10) hour = "0" + hour;
     if (minute < 10) minute = "0" + minute;
 
-    return hour + ":" + minute + " " + dd + "/" + mm + "/" + yyyy;
+    return yyyy + '/' + mm + '/' + dd +
+        "\n" + hour + ":" + minute;
 }
 
 export function updateDate(today) {
@@ -43,3 +44,13 @@ export function formatAddress(place) {
         return newPlace;
     }
 }
+
+export function formatAddressCode(place) {
+    const newPlace = place.split('_').join(' ');
+    return newPlace.charAt(0).toUpperCase() + newPlace.slice(1);
+}
+
+export function formatSalary(number) {
+    return String(number).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+}
+

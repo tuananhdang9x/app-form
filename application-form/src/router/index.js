@@ -1,13 +1,23 @@
-import HomePage from '../components/HomePage.vue'
-import TodoApp from '../components/todoApp/TodoApp.vue'
-import DropZoneHome from '../components/exam2/DropZoneHome.vue'
-import AutoCompleteHome from '../components/exam1/AutoCompleteHome.vue'
-import MultiFormHome from '../components/exam3/MultiFormHome.vue'
+import HomePage from '@/components/login/HomePage.vue'
+import RegisterPage from '@/components/register/RegisterPage.vue'
+import AdminHome from '@/components/admin/AdminHome.vue'
+import UserItem from '@/components/admin/components/UserItem.vue'
 
 export const routes = [
     { path: '/', name: 'HomePage', component: HomePage },
-    { path: '/todo', name: 'TodoApp', component: TodoApp },
-    { path: '/exam1', name: 'AutoComplete', component: AutoCompleteHome },
-    { path: '/exam2', name: 'DropZone', component: DropZoneHome },
-    { path: '/exam3', name: 'MultiForm', component: MultiFormHome },
+    { path: '/register', name: 'register', component: RegisterPage },
+    {
+        path: '/admin', name: 'admin', component: AdminHome,
+        meta: {
+            isAuthenticate: true
+        }
+    },
+    {
+        path: '/admin/detail/:id', name: '/admin/detail', component: UserItem, props: true,
+        meta: {
+            isAuthenticate: true
+        }
+    },
 ]
+
+

@@ -22,11 +22,11 @@ export default {
         deleteFileRaw({ commit }, id) {
             commit('DELETE_FILE_RAW', id)
         },
-        clearFile({ commit }, name) {
-            commit('CLEAR_FILE', name)
+        clearFile({ commit }) {
+            commit('CLEAR_FILE')
         },
-        clearFileRaw({ commit }, name) {
-            commit('CLEAR_FILE_RAW', name)
+        clearFileRaw({ commit }) {
+            commit('CLEAR_FILE_RAW')
         }
     },
     mutations: {
@@ -47,11 +47,11 @@ export default {
         DELETE_FILE_RAW(state, id) {
             state.fileRaws = state.fileRaws.filter(file => file.id !== id)
         },
-        CLEAR_FILE(state, name) {
-            state.files = state.files.filter(item => item.name !== name)
+        CLEAR_FILE(state) {
+            state.files = []
         },
-        CLEAR_FILE_RAW(state, name) {
-            state.fileRaws = state.fileRaws.filter(item => item.name !== name)
+        CLEAR_FILE_RAW(state) {
+            state.fileRaws = []
         }
     }
 }

@@ -9,27 +9,26 @@ import { getStorage, ref } from 'firebase/storage'
 import { initializeApp } from 'firebase/app'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import Toasted from 'vue-toasted'
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
-Vue.use(Toasted, {
-  position: 'top-right',
-  duration: 3000,
-  theme: "bubble",
-})
-
-Vue.toasted.register('error_msg', "The date confict was found", {
-  type: 'error',
-})
-Vue.toasted.register('success_msg', "Submit form successfully", {
-  type: 'success',
-})
 
 const router = new VueRouter({
   mode: 'history',
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.isAuthenticate) {
+    if (localStorage.getItem('id')) {
+      next();
+    } else {
+      next('/')
+    }
+  } else {
+    next()
+  }
 })
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
