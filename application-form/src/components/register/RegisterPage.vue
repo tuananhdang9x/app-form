@@ -48,21 +48,34 @@ export default {
           }
         });
       });
-      await axios.post("http://localhost:8081/auth/signup", data);
+      const res2 = await axios.post("http://localhost:8081/auth/signup", data);
+
       this.clearForm();
       this.clearChoseList();
       this.clearFileRaw();
       this.clearFile();
       this.activeLoading();
-      setTimeout(() => {
-        this.showToast({
-          id: v4(),
-          type: "success",
-          message: "Submit form successfully",
-          position: "top-center",
-        });
-        this.$router.push("/");
-      }, 2000);
+      if (res2.data.success) {
+        setTimeout(() => {
+          this.showToast({
+            id: v4(),
+            type: "success",
+            message: "Submit form successfully",
+            position: "top-center",
+          });
+          this.$router.push("/");
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          this.showToast({
+            id: v4(),
+            type: "error",
+            message: "Duplicate username was found",
+            position: "top-center",
+          });
+          this.$router.push("/");
+        }, 2000);
+      }
     },
   },
   computed: {
