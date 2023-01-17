@@ -7,7 +7,6 @@
 <script>
 import MultiFormHome from "@/components/share/multiForm/MultiFormHome.vue";
 import axios from "axios";
-import { updateDateTime } from "@/utils/index.js";
 import { mapActions, mapGetters } from "vuex";
 import { v4 } from "uuid";
 export default {
@@ -27,7 +26,6 @@ export default {
       let data = {
         id: v4(),
         status: 0,
-        create_at: updateDateTime(new Date()),
       };
       this.getMultiForm.forEach((list) => {
         list.data.forEach((item) => {
@@ -38,7 +36,7 @@ export default {
             case "avatar":
               data[item.key] = item.value.length
                 ? res.data.filename
-                : "default.jpg";
+                : "default.jpeg";
               break;
             case "repeat_password":
               break;
@@ -49,7 +47,7 @@ export default {
         });
       });
       const res2 = await axios.post("http://localhost:8081/auth/signup", data);
-
+      console.log(res2)
       this.clearForm();
       this.clearChoseList();
       this.clearFileRaw();

@@ -20,7 +20,8 @@
       <p>{{ salary }} đ</p>
     </td>
     <td class="date-time">
-      <p>{{ form.create_at }}</p>
+      <p>{{ date}}</p>
+      <p>{{ time}}</p>
     </td>
     <td
       class="status-pending"
@@ -38,7 +39,7 @@
 </template>
 
 <script>
-import { formatSalary } from "@/utils/index.js";
+import { formatSalary, formatDate,formatTime} from "@/utils/index.js";
 import { STATUS } from "@/const/multiForm.js";
 export default {
   data() {
@@ -66,6 +67,12 @@ export default {
         ? `http://localhost:8081/uploads/${this.form.avatar}`
         : "";
     },
+    date(){
+      return formatDate(this.form.created_at)
+    },
+    time(){
+      return formatTime(this.form.created_at)
+    }
   },
 };
 </script>

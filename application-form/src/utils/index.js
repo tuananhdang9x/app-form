@@ -14,20 +14,39 @@ export function updateDateTime(today) {
         "\n" + hour + ":" + minute;
 }
 
-export function updateDate(today) {
-    let yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1;
-    let dd = today.getDate();
+export function formatDateTime(today){
+    let date = new Date(today)
+    let yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    let hour = date.getHours() + 7;
+    let minute = date.getMinutes();
+
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+    if (hour < 10) hour = "0" + hour;
+    if (minute < 10) minute = "0" + minute;
+
+    return yyyy + '/' + mm + '/' + dd +
+        "\n" + hour + ":" + minute;
+}
+
+export function formatDate(today) {
+    let date = new Date(today)
+    let yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
 
     if (dd < 10) dd = "0" + dd;
     if (mm < 10) mm = "0" + mm;
 
-    return yyyy + "-" + mm + "-" + dd;
+    return yyyy + "/" + mm + "/" + dd;
 }
 
-export function updateTime(today) {
-    let hour = today.getHours();
-    let minute = today.getMinutes();
+export function formatTime(today) {
+    let date = new Date(today)
+    let hour = date.getHours() + 7;
+    let minute = date.getMinutes();
 
     if (hour < 10) hour = "0" + hour;
     if (minute < 10) minute = "0" + minute;
