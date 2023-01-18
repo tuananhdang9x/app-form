@@ -14,14 +14,11 @@ import { LIST_JOB } from "@/const/multiForm.js";
 export default {
   data() {
     return {
-      listOptions: [],
+      listOptions: LIST_JOB,
     };
   },
   components: {
     AutoCompleteItem,
-  },
-  created() {
-    this.listOptions = LIST_JOB;
   },
   methods: {
     onChangeJob() {

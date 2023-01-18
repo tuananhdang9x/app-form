@@ -6,11 +6,11 @@
     </div>
     <div class="input-date">
       <input
-        type="date"
-        @change="onChange"
-        :class="{ error: errorMsg }"
         v-model="date"
+        type="date"
+        :class="{ error: errorMsg }"
         :readonly="isAdminPage"
+        @change="onChange"
       />
     </div>
     <div class="msg" v-if="errorMsg">

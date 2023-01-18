@@ -3,23 +3,23 @@
     <div class="footer-nav">
       <div class="nav-item">
         <div
+          v-if="stepData.step === formData.length"
           class="finish-btn"
           @click="handleNextStep"
-          v-if="stepData.step === formData.length"
         >
           <p>Finish</p>
         </div>
         <div
+          v-if="stepData.step !== formData.length"
           class="footer-next-item"
           @click="handleNextStep"
-          v-if="stepData.step !== formData.length"
         >
           <p>Next</p>
         </div>
         <div
+          v-if="stepData.step !== 1"
           class="footer-prev-item"
           @click="handlePrevStep"
-          v-if="stepData.step !== 1"
         >
           <p>Back</p>
         </div>

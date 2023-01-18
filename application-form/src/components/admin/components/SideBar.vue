@@ -33,6 +33,7 @@ export default {
       this.$emit("handleLogout");
     },
   },
+  
   computed: {
     imgUrl() {
       return this.user.avatar

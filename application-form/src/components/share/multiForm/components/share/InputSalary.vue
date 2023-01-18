@@ -6,10 +6,10 @@
     </div>
     <div class="input-salary" :class="{ error: errorMsg }">
       <input
-        type="text"
-        @keyup="onChange(salary)"
         v-model="salary"
+        type="text"
         :readonly="isAdminPage"
+        @keyup="onChange(salary)"
       />
       <div class="input-text">VNĐ</div>
     </div>

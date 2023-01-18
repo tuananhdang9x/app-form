@@ -7,8 +7,8 @@
     <select
       id="place-list"
       v-model="city"
-      @change="onChange"
       :disabled="isAdminPage"
+      @change="onChange"
     >
       <option disabled selected value>{{ placeholder }}</option>
       <option

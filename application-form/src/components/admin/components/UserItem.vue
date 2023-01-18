@@ -40,7 +40,7 @@
 
 <script>
 import { formatSalary, formatDate,formatTime} from "@/utils/index.js";
-import { STATUS } from "@/const/multiForm.js";
+import { STATUS,URL_BASE } from "@/const/multiForm.js";
 export default {
   data() {
     return {
@@ -64,7 +64,7 @@ export default {
     },
     imgUrl() {
       return this.form.avatar
-        ? `http://localhost:8081/uploads/${this.form.avatar}`
+        ? `${URL_BASE}/uploads/${this.form.avatar}`
         : "";
     },
     date(){

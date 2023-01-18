@@ -1,6 +1,6 @@
 <template>
   <div class="search-result">
-    <span class="result-item">{{ item }}</span>
+    <span class="result-item">{{ item.name }}</span>
   </div>
 </template>
 

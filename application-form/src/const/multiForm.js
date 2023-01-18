@@ -1,9 +1,14 @@
-export const LIST_COMPANY = ["MorSoftware", "MorSoftware 1", "MorSoftware 2", "MorSoftware 3", "MorSoftware 4"]
-export const LIST_JOB = ["Applications engineer", "Data quality manager",
-    "Computer programmer", "Data scientist",
-    "Web administrator", "IT coordinator"
-    , "Support specialist", "Software engineer",
-    "Quality assurance tester", "Network engineer"
+export const LIST_JOB = [
+    {id:1,name:"Applications engineer"},
+    {id:2,name:"Data quality manager"},
+    {id:3,name:"Computer programmer"},
+    {id:4,name:"Data scientist"},
+    {id:5,name:"Web administrator"},
+    {id:6,name:"IT coordinator"},
+    {id:7,name:"Support specialist"},
+    {id:8,name:"Software engineer"},
+    {id:9,name:"Quality assurance tester"},
+    {id:10,name:"Network engineer"}
 ]
 
 export const USER_PER_PAGE = 10;
@@ -13,3 +18,5 @@ export const STATUS = {
     APPROVED: 1,
     REJECTED: 2
 }
+
+export const URL_BASE='http://localhost:8081'

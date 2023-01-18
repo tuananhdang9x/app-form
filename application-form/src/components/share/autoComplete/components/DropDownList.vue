@@ -6,7 +6,7 @@
       class="dropdown-item"
       @click="handleAdd(item)"
     >
-      {{ item }}
+      {{ item.name }}
     </li>
   </ul>
 </template>

@@ -90,8 +90,8 @@ export default {
       }
       this.filteredOptions = this.listOptions.filter((item) => {
         return (
-          item.toLowerCase().match(this.keyword.toLowerCase()) &&
-          !this.listChoseOptions.map((item) => item).includes(item)
+          item.name.toLowerCase().match(this.keyword.toLowerCase()) &&
+          !this.listChoseOptions.map((item) => item.id).includes(item.id)
         );
       });
       if (!this.filteredOptions.length) {

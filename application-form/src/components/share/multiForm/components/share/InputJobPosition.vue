@@ -8,9 +8,9 @@
       {{ description }}
     </div>
     <AutoCompleteHome
-      @onChangeJob="onChange"
-      :value="value"
-      :show="isAdminPage"
+    :value="value"
+    :show="isAdminPage"
+    @onChangeJob="onChange"
     />
   </div>
 </template>

@@ -6,12 +6,12 @@
     </div>
     <div class="input-large">
       <textarea
+        v-model="keyword"
         type="text"
         name="name"
-        v-model="keyword"
-        @keyup="onChange(keyword)"
         :class="{ error: errorMsg }"
         :readonly="isAdminPage"
+        @keyup="onChange(keyword)"
       ></textarea>
     </div>
     <div class="input-limit" v-if="title === 'describe youself'">

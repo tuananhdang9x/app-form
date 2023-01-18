@@ -21,7 +21,11 @@ export default {
     },
     mutations: {
         GET_OPTIONS(state, data) {
-            data.map(item => state.options.push({ id: item.code, codename: formatAddressCode(item.codename), name: formatAddress(item.name) }));
+            const listOptions = data.map(item => {
+                return {id: item.code, codename: formatAddressCode(item.codename), name: formatAddress(item.name)}
+                }   
+            )
+            state.options = listOptions
         },
     }
 }

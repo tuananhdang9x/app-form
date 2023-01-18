@@ -5,13 +5,13 @@
       <div class="input-name">{{ title }}</div>
     </div>
     <input
+      v-model="keyword"
       :type="type"
-      @keyup="onChange(keyword)"
       :class="{
         error: errorMsg,
       }"
-      v-model="keyword"
       :readonly="isAdminPage"
+      @keyup="onChange(keyword)"
     />
     <div class="msg" v-if="errorMsg">
       <p>{{ errorMsg }}</p>

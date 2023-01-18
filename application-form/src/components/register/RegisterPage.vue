@@ -31,7 +31,7 @@ export default {
         list.data.forEach((item) => {
           switch (item.key) {
             case "position":
-              data[item.key] = item.value.length ? item.value.join(", ") : "";
+              data[item.key] = item.value.length ? item.value.name.join(", ") : "";
               break;
             case "avatar":
               data[item.key] = item.value.length
