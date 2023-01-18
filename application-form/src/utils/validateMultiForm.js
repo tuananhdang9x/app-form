@@ -1,4 +1,4 @@
-import { updateDate } from "@/utils/index.js";
+import { formatDate } from "@/utils/index.js";
 
 export function validateRequireItem(item) {
     if (item.value === "") {
@@ -16,7 +16,7 @@ export function validateMaxLength(item) {
 
 export function validateDoB(item) {
     let today = new Date();
-    if (item.value > updateDate(today)) {
+    if (item.value > formatDate(today)) {
         item.errorMsg = "the date should be before today";
         scrollError()
     }
@@ -55,7 +55,7 @@ export function validateDate(item) {
         item.errorMsg = "this field is required"
         scrollError()
         isCheck = false;
-    } else if (item.value.from > updateDate(today) || item.value.to > updateDate(today)) {
+    } else if (item.value.from > formatDate(today) || item.value.to > formatDate(today)) {
         item.errorMsg = "the date should be before today"
         scrollError()
         isCheck = false;
@@ -72,7 +72,7 @@ export function validateDate(item) {
 }
 
 export function validateDuplicatePassword(stepData, item) {
-    let newArr = stepData.data.filter(item => item.passwordField === true)
+    let newArr = stepData.data.filter(item => item.isPasswordField === true)
     let set = new Set
     newArr.forEach(item => set.add(item.value))
 
@@ -82,7 +82,7 @@ export function validateDuplicatePassword(stepData, item) {
     }
 }
 
-export function resetError(stepData) {
+export function resetError(stepData) {  
     stepData.data.forEach(item => {
         item.errorMsg = ""
     })

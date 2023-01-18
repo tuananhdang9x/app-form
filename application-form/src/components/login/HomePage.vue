@@ -11,8 +11,8 @@
 import LoginItem from "./LoginItem.vue";
 import RegisterItem from "./RegisterItem.vue";
 import { mapActions } from "vuex";
-import axios from "axios";
 import { v4 } from "uuid";
+import {login} from '../service/userService.js'
 export default {
   components: {
     RegisterItem,
@@ -32,11 +32,11 @@ export default {
     },
     async handleLogin(payload) {
       try {
-        const res = await axios.post("http://localhost:8081/auth/login", {
-          username: payload.userName,
-          password: payload.password,
-        });
-        localStorage.setItem("id", res.data.id);
+        const res = await login({
+        username: payload.userName,
+        password: payload.password,
+      });
+      localStorage.setItem("id", res.data.id);
         this.activeLoading();
         setTimeout(() => {
           this.showToast({

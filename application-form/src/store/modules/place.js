@@ -1,5 +1,5 @@
 import { formatAddress, formatAddressCode } from "@/utils/index.js";
-import Vue from 'vue'
+import axios from 'axios'
 
 export default {
     namespaced: true,
@@ -12,7 +12,7 @@ export default {
     actions: {
         async getOptions({ commit }) {
             try {
-                const res = await Vue.axios.get('https://Provinces.open-api.vn/api/?depth=1')
+                const res = await axios.get('https://Provinces.open-api.vn/api/?depth=1')
                 commit('GET_OPTIONS', res.data)
             } catch (error) {
                 throw Error(error)

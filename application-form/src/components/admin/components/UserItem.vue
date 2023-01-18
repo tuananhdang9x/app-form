@@ -1,242 +1,183 @@
 <template>
-  <div class="detail-page" v-if="loadingProcess">
-    <SideBar @handleLogout="handleLogout" :user="userDetail" />
-    <div class="table-container">
-      <div class="back-icon" @click="handleBack">
-        <IconBackArrow />
-      </div>
-      <div class="header">
+  <tr class="table-data" @click="onDetailUser">
+    <td class="personal_info">
+      <div class="avatar-item">
         <img :src="imgUrl" alt="avatar" />
-        <div class="info">
-          <p class="name">{{ listForm.fullname }}</p>
-          <p class="title">{{ listForm.position }}</p>
+      </div>
+      <div class="info">
+        <div class="name">
+          <p>{{ form.fullname }}</p>
+        </div>
+        <div class="description">
+          <p>{{ form.position }}</p>
         </div>
       </div>
-      <div class="multi-form">
-        <MultiFormAdmin :id="id" />
-      </div>
-      <div class="approve-btn" @click="handleApprove">
-        <p>Approve</p>
-      </div>
-      <div class="reject-btn" @click="handleReject">
-        <p>Reject</p>
-      </div>
-    </div>
-  </div>
+    </td>
+    <td class="city">
+      <p>{{ form.address }}</p>
+    </td>
+    <td class="salary">
+      <p>{{ salary }} đ</p>
+    </td>
+    <td class="date-time">
+      <p>{{ date}}</p>
+      <p>{{ time}}</p>
+    </td>
+    <td
+      class="status-pending"
+      :class="{
+        'status-pending': form.status === STATUS.PENDING,
+        'status-approved': form.status === STATUS.APPROVED,
+        'status-rejected': form.status === STATUS.REJECTED,
+      }"
+    >
+      <p v-if="form.status === STATUS.PENDING">Pending</p>
+      <p v-if="form.status === STATUS.APPROVED">Approved</p>
+      <p v-if="form.status === STATUS.REJECTED">Rejected</p>
+    </td>
+  </tr>
 </template>
 
 <script>
-import SideBar from "./SideBar.vue";
-import IconBackArrow from "@/assets/icon/IconBackArrow.vue";
-import MultiFormAdmin from "@/components/share/multiForm/MultiFormAdmin.vue";
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
-import { v4 } from "uuid";
+import { formatSalary, formatDate,formatTime} from "@/utils/index.js";
+import { STATUS } from "@/const/multiForm.js";
 export default {
   data() {
     return {
-      loadingProcess: false,
+      STATUS,
     };
   },
-  async created() {
-    await this.getUser();
-    this.loadingProcess = true;
-  },
-  components: {
-    SideBar,
-    IconBackArrow,
-    MultiFormAdmin,
-  },
   props: {
-    id: {
-      type: String,
-      default: "",
+    form: {
+      type: Object,
+      default: () => {},
     },
   },
   methods: {
-    ...mapActions("form", ["clearForm", "getUser"]),
-    ...mapActions("list", ["clearChoseList"]),
-    ...mapActions("toast", ["showToast"]),
-    ...mapActions("loading", ["activeLoading"]),
-    handleLogout() {
-      this.clearForm();
-      this.clearChoseList();
-      this.activeLoading();
-      setTimeout(() => {
-        this.$router.push("/");
-      }, 2000);
-    },
-    async handleApprove() {
-      await axios.post("http://localhost:8081/users/status", {
-        id: this.id,
-        status: 1,
-      });
-      this.activeLoading();
-      setTimeout(() => {
-        this.showToast({
-          id: v4(),
-          type: "success",
-          message: "Application was approved !",
-          position: "top-right",
-        });
-        this.$router.push("/admin");
-      }, 2000);
-    },
-    async handleReject() {
-      await axios.post("http://localhost:8081/users/status", {
-        id: this.id,
-        status: 2,
-      });
-      this.activeLoading();
-      setTimeout(() => {
-        this.showToast({
-          id: v4(),
-          type: "error",
-          message: "Application was rejected !",
-          position: "top-right",
-        });
-        this.$router.push("/admin");
-      }, 2000);
-    },
-    handleBack() {
-      this.$router.push("/admin");
+    onDetailUser() {
+      this.$emit("onDetailUser");
     },
   },
   computed: {
-    ...mapGetters("form", ["listUsers"]),
-    listForm() {
-      return this.listUsers.find((item) => item.id === this.id);
-    },
-    userDetail() {
-      return this.listUsers.find(
-        (item) => item.id === localStorage.getItem("id")
-      );
+    salary() {
+      return formatSalary(this.form.salary);
     },
     imgUrl() {
-      return this.listForm.avatar
-        ? `http://localhost:8081/uploads/${this.listForm.avatar}`
+      return this.form.avatar
+        ? `http://localhost:8081/uploads/${this.form.avatar}`
         : "";
     },
+    date(){
+      return formatDate(this.form.created_at)
+    },
+    time(){
+      return formatTime(this.form.created_at)
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.detail-page {
-  display: flex;
-  .table-container {
-    position: relative;
-    margin-top: 48px;
-    width: 1046px;
-    max-height: 722px;
-    overflow: hidden;
-    padding: 24px;
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    margin-left: 282px;
-    ::v-deep #container-multiform {
-      .form-item {
-        width: 100%;
-        height: 100%;
-        margin-bottom: 270px;
-      }
-    }
-    ::v-deep .nav-container {
-      .header {
-        display: none;
-      }
-    }
-    ::v-deep .footer {
-      display: none;
-    }
-
-    ::v-deep .step-item {
-      max-height: 358px;
-      width: 998px;
-    }
-
-    .back-icon {
-      cursor: pointer;
-      width: 24px;
+.table-data {
+  cursor: pointer;
+  width: 998px;
+  height: 64px;
+  .status-pending {
+    p {
+      display: flex;
+      align-items: center;
+      width: 70px;
       height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 0px 8px;
+      background: #fffbeb;
+      border-radius: 4px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #dd901d;
     }
-    .header {
-      width: 998px;
-      height: 82px;
-      padding: 16px;
-      background: #f7f7f7;
-      margin: 48px 24px 24px 24px;
+  }
+  .status-approved {
+    p {
       display: flex;
-      justify-content: flex-start;
       align-items: center;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #627d98;
+      width: 80px;
+      height: 24px;
+      background: #f0f4f8;
+      border-radius: 4px;
+      padding: 0px 8px;
+    }
+  }
+  .status-rejected {
+    p {
+      font-style: normal;
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #f86a6a;
+      width: 73px;
+      height: 24px;
+      background: #ffe3e3;
+      border-radius: 4px;
+      padding: 0px 8px;
+    }
+  }
+  .city {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333333;
+  }
+  .salary {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333333;
+  }
+  .date-time {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333333;
+  }
+  .personal_info {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding: 8px 10px 8px 0;
+    .description {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+    }
+    .name {
+      p {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #333333;
+      }
+    }
+    .avatar-item {
+      margin-right: 10px;
       img {
         width: 48px;
         height: 48px;
         border-radius: 5px;
-      }
-      .info {
-        margin-left: 10px;
-        .name {
-          font-style: normal;
-          font-weight: 400;
-          font-size: 20px;
-          line-height: 30px;
-          color: #333333;
-        }
-        .title {
-          font-style: normal;
-          font-weight: 400;
-          font-size: 12px;
-          line-height: 20px;
-          color: #333333;
-        }
-      }
-    }
-    .approve-btn {
-      cursor: pointer;
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
-      padding: 0px 16px;
-      width: 102px;
-      height: 40px;
-      background: #48647f;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      p {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 24px;
-        color: #ffffff;
-      }
-    }
-    .reject-btn {
-      cursor: pointer;
-      position: absolute;
-      bottom: 24px;
-      left: 142px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0px 12px;
-      width: 102px;
-      height: 40px;
-      border: 1px solid #ffbdbd;
-      border-radius: 4px;
-      background: #ffffff;
-      p {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-        color: #f86868;
       }
     }
   }

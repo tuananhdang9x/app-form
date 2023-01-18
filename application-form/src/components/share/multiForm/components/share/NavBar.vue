@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     isAdminPage() {
-      let isAdmin = this.$route.name.includes("admin") ? true : false;
+      let isAdmin = this.$route.path.includes("admin") ? true : false;
       return isAdmin;
     },
   },

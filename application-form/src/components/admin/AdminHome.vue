@@ -5,11 +5,11 @@
       <div class="table-container">
         <table class="table-item" cellspacing="0">
           <tr class="table-header">
-            <th v-for="(item, index) in header" :key="index">
-              <p>{{ item }}</p>
+            <th v-for="item in header" :key="item.id">
+              <p>{{ item.lable }}</p>
             </th>
           </tr>
-          <UserList
+          <UserItem
             v-for="form in filterdForm"
             :key="form.id"
             :form="form"
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import UserList from "./components/UserList.vue";
+import UserItem from "./components/UserItem.vue";
 import FooterTable from "./components/FooterTable.vue";
 import SideBar from "./components/SideBar.vue";
 import { mapActions, mapGetters } from "vuex";
@@ -40,12 +40,16 @@ export default {
       currentPage: 1,
       start: 0,
       end: 0,
-      header: ["Fullname", "City", "Wish Salary", "Created at", "Status"],
+      header:[{id:1,lable:'Fullname'},
+      {id:2,lable:'City'},
+      {id:3,lable:'Wish Salary'},
+      {id:4,lable:'Created at'},
+      {id:5,lable:'Status'}]
     };
   },
   components: {
     SideBar,
-    UserList,
+    UserItem,
     FooterTable,
   },
   created() {
@@ -56,6 +60,7 @@ export default {
     ...mapActions("list", ["clearChoseList"]),
     ...mapActions("loading", ["activeLoading"]),
     handleLogout() {
+      localStorage.setItem("id", "");
       this.clearForm();
       this.clearChoseList();
       this.activeLoading();
@@ -64,7 +69,7 @@ export default {
       }, 2000);
     },
     onDetailUser(id) {
-      this.$router.push({ name: "/admin/detail", params: { id } });
+      this.$router.push({ name: "Detail", params: { id } });
     },
     handleNext() {
       this.currentPage++;
@@ -72,22 +77,26 @@ export default {
     handleBack() {
       this.currentPage--;
     },
-    filteredList() {
-      let start = (this.currentPage - 1) * USER_PER_PAGE;
-      let end = start + USER_PER_PAGE;
-      this.start = start + 1;
-      if (end > this.listUsers.length) {
-        end = this.listUsers.length;
-      }
-      this.end = end;
-      return this.listUsers.slice(start, end);
-    },
   },
-
+  watch:{
+    currentPage:{
+      handler(){
+        this.start = (this.currentPage - 1) * USER_PER_PAGE + 1;
+        this.end = this.start + USER_PER_PAGE -1;
+      },
+      immediate:true
+    }
+  }
+  ,
   computed: {
     ...mapGetters("form", ["listUsers"]),
     filterdForm() {
-      return this.filteredList();
+      let start = (this.currentPage - 1) * USER_PER_PAGE;
+      let end = start + USER_PER_PAGE;
+      if (end > this.listUsers.length) {
+        end = this.listUsers.length;
+      }
+      return this.listUsers.slice(start, end);
     },
     userDetail() {
       return this.listUsers.find(

@@ -6,9 +6,9 @@
 
 <script>
 import MultiFormHome from "@/components/share/multiForm/MultiFormHome.vue";
-import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import { v4 } from "uuid";
+import {uploadAvatar,signUp} from '@/components/service/userService.js'
 export default {
   components: {
     MultiFormHome,
@@ -22,7 +22,7 @@ export default {
     async handleSubmit() {
       let form = new FormData();
       form.append("file", this.getFileRaws[0]);
-      const res = await axios.post("http://localhost:8081/users/upload", form);
+      const res = await uploadAvatar(form)
       let data = {
         id: v4(),
         status: 0,
@@ -46,8 +46,7 @@ export default {
           }
         });
       });
-      const res2 = await axios.post("http://localhost:8081/auth/signup", data);
-      console.log(res2)
+      const res2 = await signUp(data)
       this.clearForm();
       this.clearChoseList();
       this.clearFileRaw();

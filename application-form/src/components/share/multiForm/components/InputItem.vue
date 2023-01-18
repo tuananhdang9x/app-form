@@ -102,10 +102,10 @@ export default {
   },
   computed: {
     showInAdmin() {
-      return this.$route.name.includes("admin") ? this.item.showInAdmin : true;
+      return this.$route.path.includes("admin") ? this.item.showInAdmin : true;
     },
     isAdminPage() {
-      return this.$route.name.includes("admin") ? true : false;
+      return this.$route.path.includes("admin") ? true : false;
     },
     jobPosition() {
       return this.isAdminPage ? this.item.value.split(",") : this.item.value;

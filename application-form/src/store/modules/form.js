@@ -1,5 +1,5 @@
 import { formData } from '@/components/share/multiForm/components/formData.js'
-import axios from 'axios'
+import {getUser} from '@/components/service/userService.js'
 export default {
     namespaced: true,
     state: {
@@ -13,7 +13,7 @@ export default {
     actions: {
         async getUser({ commit }) {
             try {
-                const res = await axios.get("http://localhost:8081/users");
+                const res = await getUser();
                 commit('GET_USER', res.data)
             } catch (error) {
                 console.log(error)

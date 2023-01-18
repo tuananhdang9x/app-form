@@ -50,7 +50,7 @@ export default {
     },
   },
   methods: {
-    async onNextStep() {
+    onNextStep() {
       if (validateNextStep(this.stepData)) {
         if (this.stepNum < this.getMultiForm.length) {
           this.stepNum++;
@@ -62,7 +62,7 @@ export default {
     onPrevStep() {
       if (this.stepNum > 1) {
         this.stepNum--;
-      }
+      } 
     },
     handleBackLogin() {
       this.$router.push("/");
@@ -70,7 +70,7 @@ export default {
     onChangeStep(choseStep) {
       if (choseStep > this.stepNum) {
         this.handleNextStep();
-        if (validateNextStep(this.stepData, this.stepNum)) {
+        if (validateNextStep(this.stepData)) {
           this.stepNum = choseStep;
         }
       } else {
@@ -99,6 +99,7 @@ export default {
       }
     },
     handleNextStep() {
+      
       this.stepData.data.forEach((item) => {
         if (item.requireItem === true) {
           validateRequireItem(item);
@@ -106,7 +107,7 @@ export default {
         if (item.wordLimit) {
           validateMaxLength(item);
         }
-        if (item.passwordField === true) {
+        if (item.isPasswordField === true) {
           validateDuplicatePassword(this.stepData, item);
         }
         if (item.inputType === "inputDob") {

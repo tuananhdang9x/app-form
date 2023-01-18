@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     handleLogout() {
-      localStorage.setItem("id", "");
       this.$emit("handleLogout");
     },
   },
